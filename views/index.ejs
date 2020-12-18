@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="angular-demo">
+  <head>
+    <title>AngularJS Demo</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js"></script>
+  </head>
+  <body>
+    <div ng-controller="FormController">
+      <h1>AngularJS Demo</h1>
+      <form ng-submit="submitForm()">
+        <label for="name">Name</label><br>
+        <input ng-model="formData.name" type="text" id="name" name="name"><br>
+        <input type="submit" value="Submit">
+      </form>
+        <h2>Submitted name:</h2>
+        <h3>{{name}}</h3>
+    </div>
+  </body>
+
+  <script>
+    var demoApp = angular.module("angular-demo", []);
+    demoApp.controller("FormController", function ($scope, $http) {
+      $scope.name = "Submitted name will appear here!";
+      // Send form to
+      $scope.submitForm = function() {
+        var data=$scope.formData;
+        responsePromise = $http.post('/', data);
+        responsePromise.then(function(response) {
+          $scope.name = response.data['receivedName'];
+        })
+
+      }
+    });
+  </script>
+
+</html>
